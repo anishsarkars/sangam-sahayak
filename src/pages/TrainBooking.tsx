@@ -3,15 +3,18 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Header from '@/components/Layout/Header';
 import Footer from '@/components/Layout/Footer';
-import { Calendar, Users, Train, ArrowRight } from 'lucide-react';
+import { Calendar, Users, Train, ArrowRight, Star, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
+import Confetti from '@/components/ui/confetti';
 
 const TrainBooking: React.FC = () => {
   const [step, setStep] = useState<number>(1);
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedBatch, setSelectedBatch] = useState<string>('');
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [bookingComplete, setBookingComplete] = useState(false);
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date);
@@ -24,6 +27,8 @@ const TrainBooking: React.FC = () => {
   };
 
   const handleBooking = () => {
+    setShowConfetti(true);
+    setBookingComplete(true);
     toast.success('Your train booking has been confirmed!', {
       description: `Batch ${selectedBatch} on ${selectedDate}`,
     });
@@ -50,6 +55,14 @@ const TrainBooking: React.FC = () => {
     <div className="app-container bg-gradient-to-br from-background to-secondary/30">
       <Header title="Train Booking" showBackButton />
       
+      <Confetti 
+        trigger={showConfetti} 
+        duration={4000}
+        particleCount={200}
+        spread={100}
+        onComplete={() => setShowConfetti(false)}
+      />
+      
       <main className="flex-1 p-4">
         <div className="mb-6">
           <div className="flex items-center space-x-4 mb-6">
@@ -69,12 +82,12 @@ const TrainBooking: React.FC = () => {
           <h2 className="text-xl font-medium mb-2">
             {step === 1 && 'Select Travel Date'}
             {step === 2 && 'Choose Batch'}
-            {step === 3 && 'Confirm Booking'}
+            {step === 3 && (bookingComplete ? 'Booking Confirmed!' : 'Confirm Booking')}
           </h2>
           <p className="text-sm text-muted-foreground">
             {step === 1 && 'Select your preferred date of travel to Ujjain'}
             {step === 2 && 'Choose from available batches for your selected date'}
-            {step === 3 && 'Review and confirm your train booking details'}
+            {step === 3 && (bookingComplete ? 'Your journey is now planned. Get ready for Kumbh Mela!' : 'Review and confirm your train booking details')}
           </p>
         </div>
         
@@ -173,53 +186,120 @@ const TrainBooking: React.FC = () => {
             exit={{ opacity: 0 }}
             className="space-y-6"
           >
-            <Card className="border-border/50">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-medium mb-4">Booking Summary</h3>
+            {bookingComplete ? (
+              <Card className="border-primary/30 bg-primary/5 overflow-hidden">
+                <CardContent className="p-0">
+                  <div className="bg-primary/20 p-4 flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center">
+                      <Check className="w-8 h-8 text-white" />
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-center text-lg font-medium mb-2">Congratulations!</h3>
+                    <p className="text-center text-sm text-muted-foreground mb-6">Your journey to Kumbh Mela is confirmed</p>
+                    
+                    <div className="space-y-4">
+                      <div className="flex items-start">
+                        <Calendar className="w-5 h-5 text-sangam-600 mt-0.5 mr-3" />
+                        <div>
+                          <p className="text-sm text-muted-foreground">Travel Date</p>
+                          <p className="font-medium">{selectedDate}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start">
+                        <Train className="w-5 h-5 text-sangam-600 mt-0.5 mr-3" />
+                        <div>
+                          <p className="text-sm text-muted-foreground">Batch</p>
+                          <p className="font-medium">Batch {selectedBatch}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start">
+                        <Users className="w-5 h-5 text-sangam-600 mt-0.5 mr-3" />
+                        <div>
+                          <p className="text-sm text-muted-foreground">Pilgrims</p>
+                          <p className="font-medium">1 Person</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-6 pt-6 border-t border-border/50 flex justify-center">
+                      <div className="flex space-x-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star key={star} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="mt-4">
+                      <Button 
+                        variant="outline"
+                        className="w-full" 
+                        onClick={() => {
+                          setStep(1);
+                          setBookingComplete(false);
+                          setSelectedDate('');
+                          setSelectedBatch('');
+                        }}
+                      >
+                        Book Another Journey
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              <>
+                <Card className="border-border/50">
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-medium mb-4">Booking Summary</h3>
+                    
+                    <div className="space-y-4">
+                      <div className="flex items-start">
+                        <Calendar className="w-5 h-5 text-sangam-600 mt-0.5 mr-3" />
+                        <div>
+                          <p className="text-sm text-muted-foreground">Travel Date</p>
+                          <p className="font-medium">{selectedDate}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start">
+                        <Train className="w-5 h-5 text-sangam-600 mt-0.5 mr-3" />
+                        <div>
+                          <p className="text-sm text-muted-foreground">Batch</p>
+                          <p className="font-medium">Batch {selectedBatch}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-start">
+                        <Users className="w-5 h-5 text-sangam-600 mt-0.5 mr-3" />
+                        <div>
+                          <p className="text-sm text-muted-foreground">Pilgrims</p>
+                          <p className="font-medium">1 Person</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-6 pt-6 border-t border-border/50">
+                      <p className="text-sm text-muted-foreground mb-2">Important Notes:</p>
+                      <ul className="text-sm text-muted-foreground space-y-1">
+                        <li>• Please arrive 30 minutes before departure</li>
+                        <li>• Keep your ID proof handy for verification</li>
+                        <li>• This allocation helps manage crowds efficiently</li>
+                      </ul>
+                    </div>
+                  </CardContent>
+                </Card>
                 
-                <div className="space-y-4">
-                  <div className="flex items-start">
-                    <Calendar className="w-5 h-5 text-sangam-600 mt-0.5 mr-3" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Travel Date</p>
-                      <p className="font-medium">{selectedDate}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <Train className="w-5 h-5 text-sangam-600 mt-0.5 mr-3" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Batch</p>
-                      <p className="font-medium">Batch {selectedBatch}</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <Users className="w-5 h-5 text-sangam-600 mt-0.5 mr-3" />
-                    <div>
-                      <p className="text-sm text-muted-foreground">Pilgrims</p>
-                      <p className="font-medium">1 Person</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="mt-6 pt-6 border-t border-border/50">
-                  <p className="text-sm text-muted-foreground mb-2">Important Notes:</p>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    <li>• Please arrive 30 minutes before departure</li>
-                    <li>• Keep your ID proof handy for verification</li>
-                    <li>• This allocation helps manage crowds efficiently</li>
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Button 
-              className="w-full py-6" 
-              onClick={handleBooking}
-            >
-              Confirm Booking
-            </Button>
+                <Button 
+                  className="w-full py-6" 
+                  onClick={handleBooking}
+                >
+                  Confirm Booking
+                </Button>
+              </>
+            )}
           </motion.div>
         )}
       </main>

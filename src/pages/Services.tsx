@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/Layout/Header';
 import Footer from '@/components/Layout/Footer';
 import { motion } from 'framer-motion';
@@ -10,9 +10,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+import Confetti from '@/components/ui/confetti';
 
 const Services: React.FC = () => {
   const [isLocating, setIsLocating] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
   
   const handleLocateNearby = () => {
     setIsLocating(true);
@@ -22,6 +26,12 @@ const Services: React.FC = () => {
       toast.success('Found nearby facilities', {
         description: 'Showing the closest services to your location',
       });
+      setShowConfetti(true);
+      
+      // Set a timeout to auto-select the first category to ensure services are shown
+      setTimeout(() => {
+        setActiveCategory('water');
+      }, 500);
     }, 1500);
   };
   
@@ -83,10 +93,54 @@ const Services: React.FC = () => {
       count: 6
     }
   ];
+
+  // Mock data for facilities
+  const facilities = {
+    water: [
+      { id: 1, name: 'Central Water Station', distance: '0.3 km', status: 'Open' },
+      { id: 2, name: 'River Bank Point', distance: '0.5 km', status: 'Open' },
+      { id: 3, name: 'Temple Entrance', distance: '0.7 km', status: 'Open' },
+      { id: 4, name: 'Eastern Gate Station', distance: '1.2 km', status: 'Open' },
+    ],
+    toilets: [
+      { id: 1, name: 'Main Washroom Complex', distance: '0.2 km', status: 'Open' },
+      { id: 2, name: 'Northern Toilets', distance: '0.6 km', status: 'Open' },
+      { id: 3, name: 'Eastern Facilities', distance: '0.9 km', status: 'Maintenance' },
+    ],
+    medical: [
+      { id: 1, name: 'Central Medical Tent', distance: '0.4 km', status: 'Open' },
+      { id: 2, name: 'Emergency First Aid', distance: '0.8 km', status: 'Open' },
+    ],
+    food: [
+      { id: 1, name: 'Main Food Court', distance: '0.3 km', status: 'Open' },
+      { id: 2, name: 'Prasad Distribution', distance: '0.5 km', status: 'Open' },
+      { id: 3, name: 'Vegetarian Canteen', distance: '0.7 km', status: 'Open' },
+    ],
+    shops: [
+      { id: 1, name: 'General Store', distance: '0.4 km', status: 'Open' },
+      { id: 2, name: 'Pooja Samagri Shop', distance: '0.6 km', status: 'Open' },
+    ],
+    volunteers: [
+      { id: 1, name: 'Main Help Desk', distance: '0.2 km', status: 'Open' },
+      { id: 2, name: 'Information Kiosk', distance: '0.5 km', status: 'Open' },
+      { id: 3, name: 'Guide Station', distance: '0.8 km', status: 'Open' },
+    ],
+    wifi: [
+      { id: 1, name: 'Central Wi-Fi Zone', distance: '0.3 km', status: 'Active' },
+      { id: 2, name: 'Rest Area Connectivity', distance: '0.7 km', status: 'Active' },
+    ]
+  };
   
   return (
     <div className="app-container bg-gradient-to-br from-background to-secondary/30">
       <Header title="Pilgrim Services" showBackButton />
+      
+      <Confetti 
+        trigger={showConfetti} 
+        onComplete={() => setShowConfetti(false)}
+        particleCount={150}
+        spread={90}
+      />
       
       <main className="flex-1 p-4">
         <div className="mb-6">
@@ -117,8 +171,9 @@ const Services: React.FC = () => {
                 key={category.id}
                 whileHover={{ y: -3 }}
                 whileTap={{ scale: 0.97 }}
+                onClick={() => setActiveCategory(category.id)}
               >
-                <Card className="overflow-hidden border-border/50 h-full">
+                <Card className={`overflow-hidden border-border/50 h-full transition-all ${activeCategory === category.id ? 'ring-2 ring-primary ring-offset-2' : ''}`}>
                   <CardContent className="p-3 flex flex-col items-center text-center">
                     <div className={`w-10 h-10 rounded-full ${category.color} flex items-center justify-center mb-2`}>
                       <category.icon className="w-5 h-5 text-white" />
@@ -134,6 +189,44 @@ const Services: React.FC = () => {
             ))}
           </div>
         </div>
+        
+        {activeCategory && facilities[activeCategory as keyof typeof facilities] && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="mb-6"
+          >
+            <h3 className="font-medium mb-3">Nearby {serviceCategories.find(cat => cat.id === activeCategory)?.title}</h3>
+            <div className="space-y-3">
+              {facilities[activeCategory as keyof typeof facilities].map((facility) => (
+                <Card key={facility.id} className="border-border/50">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-medium">{facility.name}</h4>
+                        <p className="text-xs text-muted-foreground">{facility.distance} away</p>
+                      </div>
+                      <Badge variant={facility.status === 'Open' || facility.status === 'Active' ? 'default' : 'secondary'}>
+                        {facility.status}
+                      </Badge>
+                    </div>
+                    <div className="mt-3 flex justify-between">
+                      <Button variant="outline" size="sm" className="text-xs">
+                        <LocateFixed className="w-3.5 h-3.5 mr-1" />
+                        Directions
+                      </Button>
+                      <Button variant="secondary" size="sm" className="text-xs">
+                        <Stethoscope className="w-3.5 h-3.5 mr-1" />
+                        Details
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </motion.div>
+        )}
         
         <div className="mb-6">
           <h3 className="font-medium mb-3">Emergency Services</h3>
