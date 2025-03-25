@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '@/components/Layout/Header';
 import Footer from '@/components/Layout/Footer';
 import WelcomeCard from '@/components/Home/WelcomeCard';
@@ -7,7 +8,8 @@ import FeatureButton from '@/components/Home/FeatureButton';
 import VolunteerCard from '@/components/Volunteer/VolunteerCard';
 import { useLanguage } from '@/components/ui/LanguageToggle';
 import { motion } from 'framer-motion';
-import { Train, Map, Search, Phone, Droplets } from 'lucide-react';
+import { Train, Map, Search, Phone, Droplets, Users } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const translations = {
   en: {
@@ -31,6 +33,10 @@ const translations = {
       title: 'Services',
       description: 'Water, toilets, medical aid & more'
     },
+    volunteer: {
+      title: 'Volunteer',
+      description: 'Join our community response team'
+    }
   },
   hi: {
     trainBooking: {
@@ -53,6 +59,10 @@ const translations = {
       title: 'सेवाएं',
       description: 'पानी, शौचालय, चिकित्सा सहायता और अधिक'
     },
+    volunteer: {
+      title: 'स्वयंसेवक',
+      description: 'हमारी सामुदायिक प्रतिक्रिया टीम में शामिल हों'
+    }
   }
 };
 
@@ -72,7 +82,7 @@ const Index: React.FC = () => {
           <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
             <WelcomeCard />
             
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
               <motion.div 
                 className="md:col-span-1"
                 initial={{ opacity: 0, y: 20 }}
@@ -154,9 +164,27 @@ const Index: React.FC = () => {
                   delay={5}
                 />
               </motion.div>
+              
+              <motion.div 
+                className="md:col-span-1"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                <FeatureButton 
+                  icon={Users}
+                  title={t.volunteer.title}
+                  description={t.volunteer.description}
+                  to="/volunteer"
+                  color="bg-amber-600"
+                  delay={6}
+                />
+              </motion.div>
             </div>
 
-            <VolunteerCard />
+            <Link to="/volunteer">
+              <VolunteerCard onJoinClick={() => {}} />
+            </Link>
             
             <motion.div
               initial={{ opacity: 0, y: 20 }}

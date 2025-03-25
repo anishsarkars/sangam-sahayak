@@ -78,22 +78,17 @@ const Header: React.FC<HeaderProps> = ({
           
           {!title && (
             <Link to="/" className="flex items-center space-x-2">
-              <div className="relative">
-                <motion.div 
-                  whileHover={{ rotate: 5 }}
-                  transition={{ duration: 0.2 }}
-                  className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 flex items-center justify-center shadow-md border border-sangam-100 dark:border-sangam-900"
-                >
-                  <img 
-                    src="/lovable-uploads/87426195-50c3-4941-a99e-fd22bb0635b7.png" 
-                    alt="Sangam Sahayak" 
-                    className="w-8 h-8 object-contain"
-                  />
-                </motion.div>
-                <div className="absolute -bottom-1 -right-1 text-[6px] text-sangam-500 dark:text-sangam-400 font-medium">
-                  @Anish
-                </div>
-              </div>
+              <motion.div 
+                whileHover={{ rotate: 5 }}
+                transition={{ duration: 0.2 }}
+                className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 flex items-center justify-center shadow-md border border-sangam-100 dark:border-sangam-900"
+              >
+                <img 
+                  src="/lovable-uploads/87426195-50c3-4941-a99e-fd22bb0635b7.png" 
+                  alt="Sangam Sahayak" 
+                  className="w-8 h-8 object-contain"
+                />
+              </motion.div>
               <span className="text-sangam-900 dark:text-sangam-100 font-semibold hidden sm:block">{t.appName}</span>
             </Link>
           )}
@@ -173,8 +168,7 @@ const Header: React.FC<HeaderProps> = ({
               </div>
               
               <div className="mt-auto pt-6 text-center">
-                <p className="text-xs text-muted-foreground">Built with ❤️ by @Anish</p>
-                <p className="text-xs text-muted-foreground mt-1">For Ujjain Maha Kumbh 2028</p>
+                <p className="text-xs text-muted-foreground">Built for Ujjain Maha Kumbh 2028</p>
               </div>
             </div>
           </motion.div>

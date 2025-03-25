@@ -4,7 +4,11 @@ import { motion } from 'framer-motion';
 import { Award, CheckCircle, Users } from 'lucide-react';
 import { Button } from '../ui/button';
 
-const VolunteerCard: React.FC = () => {
+interface VolunteerCardProps {
+  onJoinClick?: () => void;
+}
+
+const VolunteerCard: React.FC<VolunteerCardProps> = ({ onJoinClick }) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -32,31 +36,60 @@ const VolunteerCard: React.FC = () => {
           </p>
           
           <div className="space-y-3 mb-5">
-            <div className="flex items-start">
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3, duration: 0.4 }}
+              className="flex items-start"
+            >
               <CheckCircle className="w-5 h-5 text-sangam-500 mt-0.5 mr-2 flex-shrink-0" />
               <span className="text-sm">Crowd guidance & navigation</span>
-            </div>
-            <div className="flex items-start">
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.4 }}
+              className="flex items-start"
+            >
               <CheckCircle className="w-5 h-5 text-sangam-500 mt-0.5 mr-2 flex-shrink-0" />
               <span className="text-sm">First aid & medical assistance</span>
-            </div>
-            <div className="flex items-start">
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5, duration: 0.4 }}
+              className="flex items-start"
+            >
               <CheckCircle className="w-5 h-5 text-sangam-500 mt-0.5 mr-2 flex-shrink-0" />
               <span className="text-sm">Missing persons assistance</span>
-            </div>
-            <div className="flex items-start">
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.6, duration: 0.4 }}
+              className="flex items-start"
+            >
+              <CheckCircle className="w-5 h-5 text-sangam-500 mt-0.5 mr-2 flex-shrink-0" />
+              <span className="text-sm">Traffic & train station support</span>
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.7, duration: 0.4 }}
+              className="flex items-start"
+            >
               <CheckCircle className="w-5 h-5 text-sangam-500 mt-0.5 mr-2 flex-shrink-0" />
               <span className="text-sm">Tech support for elderly pilgrims</span>
-            </div>
+            </motion.div>
           </div>
           
           <div className="flex flex-wrap gap-3">
-            <Button className="premium-button">
+            <Button 
+              className="premium-button"
+              onClick={onJoinClick}
+            >
               <Users className="w-4 h-4 mr-2" />
               Join As Volunteer
-            </Button>
-            <Button variant="outline" className="border-sangam-200 dark:border-sangam-800">
-              Learn More
             </Button>
           </div>
         </div>

@@ -65,9 +65,6 @@ const WelcomeCard: React.FC<WelcomeCardProps> = ({ userName }) => {
                 className="w-20 h-20 object-contain"
               />
             </motion.div>
-            <div className="absolute -bottom-2 -right-2 text-[8px] text-sangam-500 dark:text-sangam-400 font-medium">
-              Designed by @Anish
-            </div>
           </motion.div>
         </div>
       </div>

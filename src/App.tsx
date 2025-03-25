@@ -12,7 +12,10 @@ import CrowdMap from "./pages/CrowdMap";
 import LostFound from "./pages/LostFound";
 import Emergency from "./pages/Emergency";
 import Services from "./pages/Services";
+import Volunteer from "./pages/Volunteer";
 import SplashScreen from "./components/Layout/SplashScreen";
+import VoiceAssistant from "./components/VoiceAssistant/VoiceAssistant";
+import VoiceAssistantTrigger from "./components/VoiceAssistant/VoiceAssistantTrigger";
 
 // Add motion library
 import { LazyMotion, domAnimation } from "framer-motion";
@@ -22,6 +25,7 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
+  const [voiceAssistantOpen, setVoiceAssistantOpen] = useState(false);
 
   const handleSplashComplete = () => {
     setShowSplash(false);
@@ -43,8 +47,11 @@ const App = () => {
                 <Route path="/lost-found" element={<LostFound />} />
                 <Route path="/emergency" element={<Emergency />} />
                 <Route path="/services" element={<Services />} />
+                <Route path="/volunteer" element={<Volunteer />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              <VoiceAssistantTrigger onClick={() => setVoiceAssistantOpen(true)} />
+              <VoiceAssistant open={voiceAssistantOpen} onOpenChange={setVoiceAssistantOpen} />
             </BrowserRouter>
           </LanguageProvider>
         </TooltipProvider>

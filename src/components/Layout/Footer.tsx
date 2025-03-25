@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Train, Map, Search, Phone, Droplets } from 'lucide-react';
+import { Home, Train, Map, Search, Phone, Droplets, Mic } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Footer: React.FC = () => {
@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
         </div>
         <div className="text-center mt-2 pb-1">
           <p className="text-[10px] text-muted-foreground">
-            Built by <span className="font-medium">@Anish</span> for <span className="font-medium">Ujjain Maha Kumbh 2028</span>
+            Built for <span className="font-medium">Ujjain Maha Kumbh 2028</span>
           </p>
         </div>
       </div>
