@@ -5,74 +5,74 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 30 60% 98%;
+    --foreground: 26 30% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 26 30% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 26 30% 10%;
 
-    --primary: 221 83% 53%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 26 100% 52%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
+    --secondary: 26 25% 95%;
+    --secondary-foreground: 26 30% 10%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 26 25% 95%;
+    --muted-foreground: 26 10% 40%;
 
-    --accent: 221 83% 53%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 26 100% 52%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 221 83% 53%;
+    --border: 26 15% 90%;
+    --input: 26 15% 90%;
+    --ring: 26 100% 52%;
 
     --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5% 26%;
-    --sidebar-primary: 240 6% 10%;
+    --sidebar-foreground: 26 10% 26%;
+    --sidebar-primary: 26 30% 10%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 5% 96%;
-    --sidebar-accent-foreground: 240 6% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-accent: 26 5% 96%;
+    --sidebar-accent-foreground: 26 30% 10%;
+    --sidebar-border: 26 13% 91%;
+    --sidebar-ring: 26 91% 60%;
   }
 
   .dark {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    --background: 26 20% 8%;
+    --foreground: 26 10% 95%;
 
-    --card: 222 47% 11%;
-    --card-foreground: 210 40% 98%;
+    --card: 26 20% 8%;
+    --card-foreground: 26 10% 95%;
 
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 26 20% 8%;
+    --popover-foreground: 26 10% 95%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 222 47% 11%;
+    --primary: 26 100% 52%;
+    --primary-foreground: 0 0% 5%;
 
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 26 15% 15%;
+    --secondary-foreground: 26 10% 95%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 26 15% 15%;
+    --muted-foreground: 26 10% 65%;
 
-    --accent: 217 91% 60%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 26 100% 52%;
+    --accent-foreground: 0 0% 5%;
 
     --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 26 10% 95%;
 
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 213 27% 84%;
+    --border: 26 15% 15%;
+    --input: 26 15% 15%;
+    --ring: 26 60% 52%;
   }
 }
 
@@ -128,6 +128,28 @@
   .app-container {
     @apply w-full mx-auto min-h-[100dvh] flex flex-col;
   }
+  
+  .glow-effect {
+    @apply relative overflow-hidden;
+  }
+  
+  .glow-effect::before {
+    @apply content-[''] absolute top-0 left-[-100%] w-[200%] h-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shine;
+  }
+  
+  .wavy-text {
+    @apply relative;
+  }
+  
+  .wavy-text::after {
+    @apply content-[''] absolute bottom-0 left-0 w-full h-[3px] bg-sangam-500 opacity-70;
+    animation: wave 2s infinite;
+  }
+  
+  @keyframes wave {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(10px); }
+  }
 }
 
 /* Responsive improvements */
@@ -163,4 +185,19 @@ h1, h2, h3, h4, h5, h6 {
 /* Animation utilities */
 .hover-scale {
   @apply transition-transform hover:scale-105;
+}
+
+/* New premium styles */
+.premium-card {
+  @apply bg-gradient-to-br from-white/80 to-white/40 dark:from-black/40 dark:to-black/20 backdrop-blur-lg 
+  border border-white/20 dark:border-white/5 shadow-lg rounded-2xl p-6 transition-all hover:shadow-xl;
+}
+
+.premium-button {
+  @apply bg-gradient-to-r from-sangam-500 to-sangam-600 text-white font-medium rounded-xl px-6 py-3
+  hover:from-sangam-600 hover:to-sangam-700 transition-all shadow-md hover:shadow-lg;
+}
+
+.hoverable-card {
+  @apply transition-all duration-300 hover:translate-y-[-5px] hover:shadow-xl;
 }

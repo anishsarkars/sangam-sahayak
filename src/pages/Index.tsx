@@ -4,6 +4,7 @@ import Header from '@/components/Layout/Header';
 import Footer from '@/components/Layout/Footer';
 import WelcomeCard from '@/components/Home/WelcomeCard';
 import FeatureButton from '@/components/Home/FeatureButton';
+import VolunteerCard from '@/components/Volunteer/VolunteerCard';
 import { useLanguage } from '@/components/ui/LanguageToggle';
 import { motion } from 'framer-motion';
 import { Train, Map, Search, Phone, Droplets } from 'lucide-react';
@@ -63,7 +64,7 @@ const Index: React.FC = () => {
   const containerClass = "max-w-7xl mx-auto min-h-[100dvh] flex flex-col";
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/30">
+    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20">
       <div className={containerClass}>
         <Header />
         
@@ -83,7 +84,7 @@ const Index: React.FC = () => {
                   title={t.trainBooking.title}
                   description={t.trainBooking.description}
                   to="/train-booking"
-                  color="bg-sangam-600"
+                  color="bg-sangam-500"
                   delay={1}
                   status="green"
                 />
@@ -100,7 +101,7 @@ const Index: React.FC = () => {
                   title={t.crowdMap.title}
                   description={t.crowdMap.description}
                   to="/crowd-map"
-                  color="bg-sangam-500"
+                  color="bg-sangam-600"
                   delay={2}
                   status="yellow"
                 />
@@ -154,6 +155,19 @@ const Index: React.FC = () => {
                 />
               </motion.div>
             </div>
+
+            <VolunteerCard />
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
+              className="mt-6 mb-10 text-center"
+            >
+              <p className="text-xs text-muted-foreground italic">
+                "Transforming Kumbh Mela into the Most Safely Managed Mass Gathering in the World!"
+              </p>
+            </motion.div>
           </div>
         </main>
         

@@ -73,28 +73,41 @@ const Header: React.FC<HeaderProps> = ({
           )}
           
           {title && (
-            <h1 className="text-lg font-medium text-foreground">{language === 'en' ? title : title}</h1>
+            <h1 className="text-lg font-bold text-sangam-900 dark:text-sangam-100">{language === 'en' ? title : title}</h1>
           )}
           
           {!title && (
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-sangam-500 to-sangam-700 flex items-center justify-center shadow-md">
-                <span className="text-white text-xs font-semibold">संगम</span>
+              <div className="relative">
+                <motion.div 
+                  whileHover={{ rotate: 5 }}
+                  transition={{ duration: 0.2 }}
+                  className="w-10 h-10 rounded-xl bg-white dark:bg-gray-900 flex items-center justify-center shadow-md border border-sangam-100 dark:border-sangam-900"
+                >
+                  <img 
+                    src="/lovable-uploads/87426195-50c3-4941-a99e-fd22bb0635b7.png" 
+                    alt="Sangam Sahayak" 
+                    className="w-8 h-8 object-contain"
+                  />
+                </motion.div>
+                <div className="absolute -bottom-1 -right-1 text-[6px] text-sangam-500 dark:text-sangam-400 font-medium">
+                  @Anish
+                </div>
               </div>
-              <span className="text-foreground font-medium hidden sm:block">{t.appName}</span>
+              <span className="text-sangam-900 dark:text-sangam-100 font-semibold hidden sm:block">{t.appName}</span>
             </Link>
           )}
         </div>
         
-        <div className="md:flex items-center space-x-1 hidden">
+        <div className="md:flex items-center space-x-2 hidden">
           {!isHomePage && navLinks.map((link) => (
             <Link 
               key={link.path} 
               to={link.path}
               className={`px-3 py-2 text-sm rounded-md transition-colors ${
                 location.pathname === link.path 
-                  ? 'bg-primary/10 text-primary font-medium' 
-                  : 'hover:bg-muted'
+                  ? 'bg-sangam-50 dark:bg-sangam-900/30 text-sangam-700 dark:text-sangam-300 font-medium' 
+                  : 'hover:bg-muted text-muted-foreground hover:text-foreground'
               }`}
             >
               {link.label}
@@ -102,8 +115,8 @@ const Header: React.FC<HeaderProps> = ({
           ))}
         </div>
         
-        <div className="flex items-center space-x-1">
-          <div className="hidden md:flex items-center space-x-1">
+        <div className="flex items-center space-x-2">
+          <div className="hidden md:flex items-center space-x-2">
             <LanguageToggle />
             <ModeToggle />
           </div>
@@ -132,19 +145,25 @@ const Header: React.FC<HeaderProps> = ({
           >
             <div className="flex flex-col p-4">
               <nav className="flex flex-col space-y-2">
-                {navLinks.map((link) => (
-                  <Link 
-                    key={link.path} 
-                    to={link.path}
-                    onClick={closeMobileMenu}
-                    className={`px-4 py-3 rounded-lg transition-colors ${
-                      location.pathname === link.path 
-                        ? 'bg-primary/10 text-primary font-medium' 
-                        : 'hover:bg-muted'
-                    }`}
+                {navLinks.map((link, index) => (
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05, duration: 0.3 }}
+                    key={link.path}
                   >
-                    {link.label}
-                  </Link>
+                    <Link 
+                      to={link.path}
+                      onClick={closeMobileMenu}
+                      className={`px-4 py-3 rounded-lg transition-colors ${
+                        location.pathname === link.path 
+                          ? 'bg-sangam-50 dark:bg-sangam-900/30 text-sangam-700 dark:text-sangam-300 font-medium' 
+                          : 'hover:bg-muted'
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
                 ))}
               </nav>
               
@@ -153,8 +172,9 @@ const Header: React.FC<HeaderProps> = ({
                 <ModeToggle />
               </div>
               
-              <div className="mt-auto pt-6 text-center text-xs text-muted-foreground">
-                <p>Built with ❤️ by @Anish</p>
+              <div className="mt-auto pt-6 text-center">
+                <p className="text-xs text-muted-foreground">Built with ❤️ by @Anish</p>
+                <p className="text-xs text-muted-foreground mt-1">For Ujjain Maha Kumbh 2028</p>
               </div>
             </div>
           </motion.div>
