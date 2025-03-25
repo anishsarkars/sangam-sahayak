@@ -47,12 +47,13 @@ const translations = {
   }
 };
 
+// Fixed location coordinates with proper typing for LngLatLike
 const locations = [
-  { id: 'ram-ghat', name: 'Ram Ghat', status: 'green', density: 'Low', coordinates: [75.7682, 23.1814] },
-  { id: 'triveni-ghat', name: 'Triveni Ghat', status: 'yellow', density: 'Medium', coordinates: [75.7741, 23.1793] },
-  { id: 'mahakal-temple', name: 'Mahakal Temple', status: 'red', density: 'High', coordinates: [75.7684, 23.1827] },
-  { id: 'harsiddhi-temple', name: 'Harsiddhi Temple', status: 'yellow', density: 'Medium', coordinates: [75.7678, 23.1795] },
-  { id: 'gadh-kalika', name: 'Gadh Kalika', status: 'green', density: 'Low', coordinates: [75.7658, 23.1805] },
+  { id: 'ram-ghat', name: 'Ram Ghat', status: 'green', density: 'Low', coordinates: [75.7682, 23.1814] as [number, number] },
+  { id: 'triveni-ghat', name: 'Triveni Ghat', status: 'yellow', density: 'Medium', coordinates: [75.7741, 23.1793] as [number, number] },
+  { id: 'mahakal-temple', name: 'Mahakal Temple', status: 'red', density: 'High', coordinates: [75.7684, 23.1827] as [number, number] },
+  { id: 'harsiddhi-temple', name: 'Harsiddhi Temple', status: 'yellow', density: 'Medium', coordinates: [75.7678, 23.1795] as [number, number] },
+  { id: 'gadh-kalika', name: 'Gadh Kalika', status: 'green', density: 'Low', coordinates: [75.7658, 23.1805] as [number, number] },
 ];
 
 const CrowdMap: React.FC = () => {
@@ -71,7 +72,7 @@ const CrowdMap: React.FC = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [75.7682, 23.1814], // Center on Ujjain
+      center: [75.7682, 23.1814] as [number, number], // Fixed typing for coordinates
       zoom: 14,
       attributionControl: false
     });
@@ -111,7 +112,7 @@ const CrowdMap: React.FC = () => {
         `;
         
         const marker = new mapboxgl.Marker(el)
-          .setLngLat(location.coordinates)
+          .setLngLat(location.coordinates as [number, number])
           .addTo(map.current!);
         
         markers.current.push(marker);
@@ -149,7 +150,7 @@ const CrowdMap: React.FC = () => {
     const location = locations.find(loc => loc.id === id);
     if (location && map.current) {
       map.current.flyTo({
-        center: location.coordinates,
+        center: location.coordinates as [number, number],
         zoom: 16,
         duration: 1500
       });
@@ -182,7 +183,9 @@ const CrowdMap: React.FC = () => {
               </div>
               
               <div className="relative bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg">
-                <style jsx="true">{`
+                {/* Fixed style element by removing jsx property */}
+                <style>
+                  {`
                   .crowd-marker {
                     display: flex;
                     justify-content: center;
@@ -256,7 +259,8 @@ const CrowdMap: React.FC = () => {
                       opacity: 0.8;
                     }
                   }
-                `}</style>
+                  `}
+                </style>
                 <div 
                   ref={mapContainer}
                   className="h-[400px] md:h-[500px] w-full"
