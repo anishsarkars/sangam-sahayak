@@ -126,6 +126,41 @@
   }
 
   .app-container {
-    @apply max-w-md mx-auto min-h-[100dvh] flex flex-col;
+    @apply w-full mx-auto min-h-[100dvh] flex flex-col;
   }
+}
+
+/* Responsive improvements */
+@media (min-width: 1024px) {
+  .app-container {
+    max-width: 1280px;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/20 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/30;
+}
+
+/* Typography enhancements */
+h1, h2, h3, h4, h5, h6 {
+  @apply tracking-tight;
+}
+
+/* Animation utilities */
+.hover-scale {
+  @apply transition-transform hover:scale-105;
 }

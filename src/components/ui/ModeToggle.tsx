@@ -33,9 +33,10 @@ const ModeToggle: React.FC = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-full hover:bg-muted transition-colors"
+      className="flex items-center justify-center h-9 px-3 rounded-full hover:bg-muted transition-colors"
       aria-label="Toggle theme"
     >
+      <span className="hidden sm:inline mr-2">{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
       {theme === 'light' ? (
         <Moon className="w-5 h-5 text-foreground" />
       ) : (
